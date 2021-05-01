@@ -1,0 +1,18 @@
+{
+  "name": "hackathome-ii",
+  "version": "1.0.0",
+  "description": "This is a productivity app for MLH Hack At Home-II hackathon",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eshan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.12.7"
+  }
+}
