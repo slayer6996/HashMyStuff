@@ -1,0 +1,48 @@
+body{
+    background-color: #262322;
+}
+
+.top{
+    background-color: #279AF1;
+    color: black;
+    font-family: 'Roboto Mono', monospace;
+    padding: 0.8rem;
+}
+
+.main{
+    margin: 3rem;
+    word-wrap: break-word;
+}
+
+.post-btn{
+    background-color: #59aff1;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    margin-top: 1rem;
+    height: 2rem;
+    width: 5rem;
+}
+
+.find-btn .btn{
+    float: right;
+    margin-bottom: 2%;
+}
+
+.postBox{
+    margin-top: 2%;
+}
+
+.postBtn{
+    float: right;
+}
+
+.container{
+    margin-top: 4rem;
+}
+
+.post{
+    margin-top: 4rem;
+    color: white;
+}
+

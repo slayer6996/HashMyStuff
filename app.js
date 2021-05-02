@@ -1,16 +1,14 @@
 const express= require("express")
 const bodyParser=require("body-parser")
-const mongoose=require("mongoose")
 const _=require("lodash")
-const textToHashesArray= require(__dirname+"textToHashesArray.js")
 const app=express()
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
-mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology:true})
 
 var hashSet=[]
 var posts=[]
+var requestedPosts=[]
 
 app.get("/",function(req,res){
     res.render("home", {posts:posts})
@@ -19,31 +17,53 @@ app.get("/",function(req,res){
 app.post("/", function(req,res){
     hashSet.length=0
     let hashes=req.body.hashes
-    hashSet=textToHashesArray.textToHashes(hashes)
+    console.log(typeof hashes)
+    hashset=hashes.split(" ")
 
     const postData={
         postName: req.body.postname,
         text: req.body.textarea,
-        hashes: hashSet
+        hashes: hashset
     };
+    console.log(postData)
     posts.push(postData)
     res.redirect("/")
+})
 
+app.get("/find", function(req,res){
+    res.render("find", {foundPosts:requestedPosts})
+})
+
+app.post("/find", function(req,res){
+    requestedPosts.length=0
+    let requestedHash=req.body.hash
+    for(let i=0;i<posts.length;i++){
+        for(let j=0;j<posts[i].hashes.length;j++){
+            if(posts[i].hashes[j] === requestedHash){
+                console.log("post found")
+                requestedPosts.push(posts[i])
+            }
+        }
+    }
+    res.redirect("/find")
 })
 
 app.get("/post/:postname", function(req,res){
+    requestedPosts.length=0
     const requestedPost= _.lowerCase(req.params.postname)
-    let flag=0
     for(let i=0;i<posts.length;i++){
-        if(requestedPost === posts[i].postName){
-            console.log("post found")
-            flag=1
-            res.render("post", {postTitle: posts[i].postName, postText:posts[i].text})
+        let storedTitle= _.lowerCase(posts[i].postName);
+        if(requestedPost === storedTitle){
+           requestedPosts.push(posts[i])
+           res.redirect("/requestedpost")
         }
     }
-    if(flag===0){
         console.log("post not found")
-    }
+})
+
+app.get("/requestedpost",function(req,res){
+    console.log(requestedPosts)
+    res.render("post", {requestedPosts : requestedPosts})
 })
 
 app.listen(3000, function(){
